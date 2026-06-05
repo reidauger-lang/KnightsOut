@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knights Out — Social Chess Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #3B6D11; --green-mid: #639922; --green-light: #EAF3DE; --green-pale: #F4FAF0; --green-border: #C0DD97;
+    --ink: #1C1C1A; --ink-mid: #3D3D38; --ink-light: #6B6B63;
+    --white: #FFFFFF; --surface: #F9FBF6; --border: #DDE8D0; --radius: 12px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; font-size: 16px; }
+
+  nav { background: var(--white); border-bottom: 1.5px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo-icon { width: 32px; height: 32px; background: var(--green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -0.5px; }
+  .nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
+  .nav-links a { color: var(--ink-light); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background: var(--green) !important; color: #fff !important; padding: 9px 18px; border-radius: 8px; font-weight: 600 !important; }
+
+  .hero { background: linear-gradient(170deg, #F4FAF0 0%, #EAF3DE 50%, #FFF8E8 100%); padding: 5rem 2rem 4rem; text-align: center; border-bottom: 1.5px solid var(--border); }
+  .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: var(--green-light); border: 1px solid var(--green-border); color: var(--green); font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 16px; border-radius: 20px; margin-bottom: 2rem; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.2rem, 8vw, 5.5rem); font-weight: 900; color: var(--ink); line-height: 0.95; letter-spacing: -3px; margin-bottom: 0.25rem; }
+  .hero h1 em { color: var(--green); font-style: normal; display: block; }
+  .hero-sub { font-size: 1.1rem; color: var(--ink-mid); max-width: 500px; margin: 1.25rem auto 2.25rem; line-height: 1.75; }
+  .hero-cta { display: inline-block; background: var(--green); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; padding: 15px 36px; border-radius: 9px; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+  .hero-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .hero-pills { margin-top: 2.75rem; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .pill { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 7px 16px; font-size: 13px; color: var(--ink-mid); font-weight: 500; }
+
+  .section { padding: 4rem 2rem; max-width: 880px; margin: 0 auto; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green-mid); margin-bottom: 0.5rem; }
+  .section h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 700; color: var(--ink); line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 1rem; }
+  .divider { border: none; border-top: 1.5px solid var(--border); }
+
+  .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.75rem; max-width: 640px; margin-left: auto; margin-right: auto; }
+  .pillar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1.25rem; transition: border-color 0.2s; }
+  .pillar:hover { border-color: var(--green-border); }
+  .pillar-icon { width: 40px; height: 40px; background: var(--green-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 0.85rem; }
+  .pillar h3 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; }
+  .pillar p { font-size: 14px; color: var(--ink-light); line-height: 1.65; }
+
+  .format-strip { background: var(--green-light); border-left: 4px solid var(--green); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.4rem 1.6rem; margin-top: 2.25rem; }
+  .format-strip h3 { font-size: 15px; font-weight: 600; color: var(--green); margin-bottom: 0.4rem; }
+  .format-strip p { font-size: 14px; color: #27500A; line-height: 1.7; }
+  .format-strip p + p { margin-top: 0.75rem; }
+
+  .why-section { background: var(--surface); border-top: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); padding: 4rem 2rem; }
+  .why-inner { max-width: 700px; margin: 0 auto; }
+  .why-inner p { font-size: 1rem; color: var(--ink-mid); line-height: 1.85; margin-top: 1rem; }
+
+  .signup-section { background: var(--green-light); border-top: 1.5px solid var(--green-border); border-bottom: 1.5px solid var(--green-border); padding: 4rem 2rem; }
+  .signup-inner { max-width: 560px; margin: 0 auto; }
+  .signup-inner .section-label { color: var(--green); }
+  .signup-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 700; color: var(--ink); line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 0.75rem; }
+  .signup-date-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--white); border: 1px solid var(--green-border); color: var(--ink-mid); font-size: 14px; font-weight: 500; padding: 8px 16px; border-radius: 8px; margin-bottom: 2rem; }
+  .signup-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-label { font-size: 13px; font-weight: 600; color: var(--ink-mid); }
+  .form-input { background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--ink); outline: none; transition: border-color 0.2s; }
+  .form-input:focus { border-color: var(--green); }
+  .form-helper { font-size: 12px; color: var(--ink-light); margin-top: 2px; }
+  .submit-btn { background: var(--green); color: #fff; border: none; border-radius: 8px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: background 0.2s, transform 0.1s; width: 100%; }
+  .submit-btn:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .success-msg { display: none; background: var(--white); border: 1px solid var(--green-border); color: var(--green); border-radius: 8px; padding: 1rem 1.25rem; font-size: 14px; line-height: 1.6; margin-top: 0.5rem; }
+  .error-msg { display: none; background: #FCEBEB; border: 1px solid #F7C1C1; color: #A32D2D; border-radius: 8px; padding: 0.75rem 1.25rem; font-size: 13px; }
+
+  .faq-list { margin-top: 1.5rem; }
+  .faq-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 0.65rem; overflow: hidden; background: var(--white); }
+  .faq-q { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; cursor: pointer; font-weight: 500; font-size: 15px; color: var(--ink); gap: 12px; user-select: none; }
+  .faq-q:hover { background: var(--green-pale); }
+  .faq-icon { font-size: 20px; color: var(--green); flex-shrink: 0; font-weight: 400; }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .faq-a.open { max-height: 300px; }
+  .faq-a-inner { padding: 0.75rem 1.25rem 1rem; font-size: 14px; color: var(--ink-light); line-height: 1.7; border-top: 1px solid var(--border); }
+
+  .contact-section { background: var(--surface); border-top: 1.5px solid var(--border); padding: 4rem 2rem; }
+  .contact-inner { max-width: 560px; margin: 0 auto; }
+  .contact-inner .section-label { color: var(--green-mid); }
+  .contact-sub { font-size: 14px; color: var(--ink-light); margin-bottom: 1.75rem; line-height: 1.6; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-textarea { background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--ink); outline: none; transition: border-color 0.2s; resize: vertical; min-height: 120px; }
+  .form-textarea:focus { border-color: var(--green); }
+  .contact-btn { background: var(--green); color: #fff; border: none; border-radius: 8px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: background 0.2s, transform 0.1s; width: 100%; }
+  .contact-btn:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .contact-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .contact-success { display: none; background: var(--green-light); border: 1px solid var(--green-border); color: var(--green); border-radius: 8px; padding: 1rem 1.25rem; font-size: 14px; line-height: 1.6; margin-top: 0.5rem; }
+  .contact-error { display: none; background: #FCEBEB; border: 1px solid #F7C1C1; color: #A32D2D; border-radius: 8px; padding: 0.75rem 1.25rem; font-size: 13px; }
+
+  footer { background: var(--ink); padding: 2.5rem 2rem; text-align: center; }
+  footer p { font-size: 13px; color: #6B6B63; }
+  footer span { color: #9A9A90; }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .hero { padding: 3.5rem 1.25rem 3rem; }
+    .section { padding: 3rem 1.25rem; }
+    .why-section, .contact-section, .signup-section { padding: 3rem 1.25rem; }
+    .pillars { max-width: 100%; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">♞</div>
+    <span class="nav-logo-text">Knights Out</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#why">Why We Built It</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#signup" class="nav-cta">Sign up →</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">♞ Boston · Monthly Chess Club</div>
+  <h1>Knights<em>Out.</em></h1>
+  <p class="hero-sub">A social chess club for players who are just getting hooked on the game, and those who have been playing for years.</p>
+  <button class="hero-cta" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Reserve your spot for July 28th →</button>
+  <div class="hero-pills">
+    <span class="pill">♟ Rated 600+</span>
+    <span class="pill">⚡ Rapid games</span>
+    <span class="pill">📍 Boston area</span>
+    <span class="pill">🗓 Monthly</span>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="section" id="about">
+  <div class="section-label">What to expect</div>
+  <h2>Sign up, play, meet great people.</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-icon">⚡</div>
+      <h3>Rapid games</h3>
+      <p>Quick rounds that keep the energy up and feature the inevitable crowd-pleasing blunders. You'll get several games in a night.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🤝</div>
+      <h3>Great people</h3>
+      <p>Players who love chess and are looking for social competition, great atmosphere, and a few laughs.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🗓</div>
+      <h3>Once a month</h3>
+      <p>Regular enough to build a crew. We handle the pairings, you just show up.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">👋</div>
+      <h3>Easy to join</h3>
+      <p>No membership, no commitment. Sign up, show up, play.</p>
+    </div>
+  </div>
+  <div class="format-strip" id="format">
+    <h3>How the night runs</h3>
+    <p>New players are required to have a Chess.com account and an ELO of 600 or more. Players are paired by rating so games stay competitive. Rapid time controls keep things moving. Between rounds, hang out and talk chess with whoever just beat you.</p>
+    <p>We'll usually set up a Swiss-style tournament through Chess.com each night to ensure multiple pairings and an opportunity to come out as the winner. If that's not your thing, feel free to come by and grab a couple games on the side. The purpose of Knights Out is not to be pressure packed — just good games and good company.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="why-section" id="why">
+  <div class="why-inner">
+    <div class="section-label">Why we started this</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.3rem);font-weight:700;color:var(--ink);line-height:1.15;letter-spacing:-0.5px;margin-bottom:1rem;">For people who love chess and want to improve with others.</h2>
+    <p>We started Knights Out because we wanted a place to play chess with people who care about the game and want to have a good time meeting others while continuing to improve. A spot where you can learn a new opening, laugh about the game you just blundered away, and leave having made a connection with someone you genuinely want to play again.</p>
+    <p>The format is social by design. You'll play several rated games, get matched with people near your level, and have plenty of time between rounds to meet the group. Over time you'll start to recognize faces, track your progress, and build a rivalry or two.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="signup-section" id="signup">
+  <div class="signup-inner">
+    <div class="section-label">Reserve your spot</div>
+    <h2>July 28th meetup</h2>
+    <div class="signup-date-badge">📅 Monday, July 28th · Venue TBA · Boston area</div>
+    <div class="signup-form" id="signupForm">
+      <div class="form-group">
+        <label class="form-label" for="fname">Your name</label>
+        <input class="form-input" type="text" id="fname" placeholder="First and last name">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="chess-user">Chess.com username</label>
+        <input class="form-input" type="text" id="chess-user" placeholder="e.g. NiceOneReid">
+        <span class="form-helper">Required for pairing. Must be an active chess.com account.</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="elo">Current chess.com rapid rating</label>
+        <input class="form-input" type="number" id="elo" placeholder="e.g. 850" min="100" max="3000">
+        <span class="form-helper">Check your chess.com profile if unsure.</span>
+      </div>
+      <div id="formError" class="error-msg">Please fill in all fields before submitting.</div>
+      <div id="networkError" class="error-msg">Something went wrong submitting — please try again.</div>
+      <button class="submit-btn" id="submitBtn" onclick="handleSignup()">Sign me up for July 28th</button>
+      <div id="successMsg" class="success-msg">✓ You're on the list! We'll send details about the venue and start time as July 28th gets closer. See you at the board.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="section" id="faq">
+  <div class="section-label">Common questions</div>
+  <h2>FAQ</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is my rating too low to come?<span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">If you're 600 or above, you're in. You'll be paired with players near your rating so every game is competitive regardless of where you're at.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Do I need a chess.com account?<span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Yes, we use your username and rating for pairings. We generally require that everyone is at or around 600 ELO as a minimum to join, but feel free to reach out if you're not quite there yet.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is this a tournament?<span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">We often do Swiss style tournaments to ensure clean matchups and consistent pairings, but this is a social chess night. No cost, no monetary prizes. Play hard, but the goal is to have fun and meet people.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What time format are games played in?<span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Rapid — typically 10–15 minutes per side. Details confirmed closer to each event.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What does it cost?<span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">The event is free. Just show up.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How often do you meet?<span class="faq-icon">+</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Once a month. Sign up above and we'll notify you when the next date is confirmed.</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="section-label">Get in touch</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:700;color:var(--ink);line-height:1.15;letter-spacing:-0.5px;margin-bottom:0.5rem;">Have a question?</h2>
+    <p class="contact-sub">Not sure if Knights Out is right for you, or just want to know more before signing up? Send us a message and we'll get back to you.</p>
+    <div class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="c-name">Your name</label>
+          <input class="form-input" type="text" id="c-name" placeholder="First and last name">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="c-email">Your email</label>
+          <input class="form-input" type="email" id="c-email" placeholder="you@example.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="c-message">Message</label>
+        <textarea class="form-textarea" id="c-message" placeholder="What's on your mind?"></textarea>
+      </div>
+      <div id="contactError" class="contact-error">Please fill in all fields before submitting.</div>
+      <div id="contactNetworkError" class="contact-error">Something went wrong — please try again.</div>
+      <button class="contact-btn" id="contactBtn" onclick="handleContact()">Send message</button>
+      <div id="contactSuccess" class="contact-success">✓ Message sent! We'll get back to you soon.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>♞ <span>Knights Out · Boston · A social chess club for everyone</span></p>
+</footer>
+
+<script>
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycby4tuy8G1siiXBGq9z4mchFvlmGk-DVt5NvXDFMQjt2XJYW_k9yAg6I_dOZPS8btfGdow/exec';
+  const FORMSPREE_URL = 'https://formspree.io/f/mqeoeekq';
+
+  function toggleFaq(el) {
+    const answer = el.nextElementSibling;
+    const icon = el.querySelector('.faq-icon');
+    const isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-a.open').forEach(a => {
+      a.classList.remove('open');
+      a.previousElementSibling.querySelector('.faq-icon').textContent = '+';
+    });
+    if (!isOpen) { answer.classList.add('open'); icon.textContent = '−'; }
+  }
+
+  async function handleContact() {
+    const name = document.getElementById('c-name').value.trim();
+    const email = document.getElementById('c-email').value.trim();
+    const message = document.getElementById('c-message').value.trim();
+    const errEl = document.getElementById('contactError');
+    const netErrEl = document.getElementById('contactNetworkError');
+    const successEl = document.getElementById('contactSuccess');
+
+    errEl.style.display = 'none';
+    netErrEl.style.display = 'none';
+
+    if (!name || !email || !message) { errEl.style.display = 'block'; return; }
+
+    const btn = document.getElementById('contactBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name, email, message })
+      });
+      if (res.ok) {
+        btn.style.display = 'none';
+        successEl.style.display = 'block';
+      } else { throw new Error('Failed'); }
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Send message';
+      netErrEl.style.display = 'block';
+    }
+  }
+
+  async function handleSignup() {
+    const name = document.getElementById('fname').value.trim();
+    const user = document.getElementById('chess-user').value.trim();
+    const elo = document.getElementById('elo').value.trim();
+    const errEl = document.getElementById('formError');
+    const netErrEl = document.getElementById('networkError');
+    const successEl = document.getElementById('successMsg');
+
+    errEl.style.display = 'none';
+    netErrEl.style.display = 'none';
+
+    if (!name || !user || !elo) { errEl.style.display = 'block'; return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Signing up…';
+
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          timestamp: new Date().toISOString(),
+          name,
+          chessUsername: user,
+          elo,
+          event: 'July 28, 2026'
+        })
+      });
+      btn.style.display = 'none';
+      successEl.style.display = 'block';
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Sign me up for July 28th';
+      netErrEl.style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>
