@@ -63,10 +63,8 @@
   .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
   .success-msg { display: none; background: var(--white); border: 1px solid var(--green-border); color: var(--green); border-radius: 8px; padding: 1rem 1.25rem; font-size: 14px; line-height: 1.6; margin-top: 0.5rem; }
   .error-msg { display: none; background: #FCEBEB; border: 1px solid #F7C1C1; color: #A32D2D; border-radius: 8px; padding: 0.75rem 1.25rem; font-size: 13px; }
-
   .photo-break { position: relative; width: 100%; height: 380px; overflow: hidden; }
   .photo-break img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; filter: brightness(0.72) saturate(0.85); }
-
   .faq-list { margin-top: 1.5rem; }
   .faq-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 0.65rem; overflow: hidden; background: var(--white); }
   .faq-q { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; cursor: pointer; font-weight: 500; font-size: 15px; color: var(--ink); gap: 12px; user-select: none; }
@@ -122,7 +120,7 @@
   <p class="hero-sub">A social chess club for players who are just getting hooked on the game, and those who have been playing for years.</p>
   <button class="hero-cta" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Reserve your spot for July 28th →</button>
   <div class="hero-pills">
-    <span class="pill">♟ Rated 600+</span>
+    <span class="pill">♟ All skill levels</span>
     <span class="pill">⚡ Rapid games</span>
     <span class="pill">📍 Riverwalk Brewing Co.</span>
     <span class="pill">🗓 Monthly</span>
@@ -142,7 +140,7 @@
   </div>
   <div class="format-strip" id="format">
     <h3>How the night runs</h3>
-    <p>New players are required to have a Chess.com account and an ELO of 600 or more. Players are paired by rating so games stay competitive. Rapid time controls keep things moving. Between rounds, hang out and talk chess with whoever just beat you.</p>
+    <p>Players are paired by rating so games stay competitive. Rapid time controls keep things moving. Between rounds, hang out and talk chess with whoever just beat you.</p>
     <p>We'll usually set up a Swiss-style tournament through Chess.com each night to ensure multiple pairings and an opportunity to come out as the winner. If that's not your thing, feel free to come by and grab a couple games on the side. The purpose of Knights Out is not to be pressure packed — just good games and good company.</p>
   </div>
 </section>
@@ -186,8 +184,8 @@
   <div class="section-label">Common questions</div>
   <h2>FAQ</h2>
   <div class="faq-list">
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is my rating too low to come?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">If you're 600 or above, you're in. You'll be paired with players near your rating so every game is competitive regardless of where you're at.</div></div></div>
-    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do I need a chess.com account?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Yes, we use your username and rating for pairings. We generally require that everyone is at or around 600 ELO as a minimum to join, but feel free to reach out if you're not quite there yet.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is my rating too low to come?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Not at all. Everyone is welcome regardless of rating. You'll be paired with players near your level so games stay fun and competitive.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do I need a chess.com account?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Yes — we use your username and rating for pairings. It's free to sign up at chess.com and takes about two minutes.</div></div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is this a tournament?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">We often do Swiss style tournaments to ensure clean matchups and consistent pairings, but this is a social chess night. No cost, no monetary prizes. Play hard, but the goal is to have fun and meet people.</div></div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What time format are games played in?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Rapid — typically 10–15 minutes per side. Details confirmed closer to each event.</div></div></div>
     <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What does it cost?<span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">The event is free. Just show up.</div></div></div>
