@@ -224,7 +224,7 @@
   <div class="hero-tag">♞ Newburyport, MA · Monthly Chess Club</div>
   <h1>Knights<em>Out.</em></h1>
   <p class="hero-sub">A social chess club for players who are just getting hooked on the game, and those who have been playing for years.</p>
-  <button class="hero-cta" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Reserve your spot for July 28th →</button>
+  <button class="hero-cta" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Reserve your spot for September 2nd →</button>
   <div class="hero-pills">
     <span class="pill">♟ All skill levels</span>
     <span class="pill">⚡ Rapid games</span>
@@ -267,8 +267,8 @@
 <section class="signup-section" id="signup">
   <div class="signup-inner">
     <div class="section-label">Reserve your spot</div>
-    <h2>July 28th meetup</h2>
-    <div class="signup-date-badge">📅 Tuesday, July 28th · 6:00 PM · Riverwalk Brewing Co., Newburyport</div>
+    <h2>September 2nd meetup</h2>
+    <div class="signup-date-badge">📅 Wednesday, September 2nd · 6:00 PM · Riverwalk Brewing Co., Newburyport</div>
     <div class="signup-form" id="signupForm">
       <div class="form-group"><label class="form-label" for="fname">Your name</label><input class="form-input" type="text" id="fname" placeholder="First and last name"></div>
       <div class="form-group"><label class="form-label" for="femail">Your email</label><input class="form-input" type="email" id="femail" placeholder="you@example.com"><span class="form-helper">So we can send you event details and updates.</span></div>
@@ -276,8 +276,8 @@
       <div class="form-group"><label class="form-label" for="elo">Current chess.com rapid rating</label><input class="form-input" type="number" id="elo" placeholder="e.g. 850" min="100" max="3000"><span class="form-helper">Check your chess.com profile if unsure.</span></div>
       <div id="formError" class="error-msg">Please fill in all fields before submitting.</div>
       <div id="networkError" class="error-msg">Something went wrong submitting — please try again.</div>
-      <button class="submit-btn" id="submitBtn" onclick="handleSignup()">Sign me up for July 28th</button>
-      <div id="successMsg" class="success-msg">✓ You're on the list! See you at Riverwalk Brewing on July 28th at 6pm.</div>
+      <button class="submit-btn" id="submitBtn" onclick="handleSignup()">Sign me up for September 2nd</button>
+      <div id="successMsg" class="success-msg">✓ You're on the list! See you at Riverwalk Brewing on September 2nd at 6pm.</div>
     </div>
   </div>
 </section>
@@ -386,9 +386,9 @@
     const btn = document.getElementById('submitBtn');
     btn.disabled = true; btn.textContent = 'Signing up…';
     try {
-      await fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ timestamp: new Date().toISOString(), name, email, chessUsername: user, elo, event: 'July 28, 2026' }) });
+      await fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ timestamp: new Date().toISOString(), name, email, chessUsername: user, elo, event: 'September 2, 2026' }) });
       btn.style.display = 'none'; successEl.style.display = 'block';
-    } catch (e) { btn.disabled = false; btn.textContent = 'Sign me up for July 28th'; netErrEl.style.display = 'block'; }
+    } catch (e) { btn.disabled = false; btn.textContent = 'Sign me up for September 2nd'; netErrEl.style.display = 'block'; }
   }
 </script>
 </body>
